@@ -65,14 +65,16 @@ Module Program
         'Console.WriteLine(SavetoOrigAnim)
 
         'lets ensure the arguments are valid
-        If OrigAnimFile.ToUpper.Contains(".ANIM") = False Then
-            Console.WriteLine("Orginal ANIM file not detected... ABORTING")
-            Exit Sub
-        End If
         If File.Exists(OrigAnimFile) = False Then
             Console.WriteLine("Orginal ANIM file does not exist... ABORTING")
             Exit Sub
         End If
+        Dim ANiMCheckByte As Int32 = 1296649793
+        Using br As BinaryReader = New BinaryReader(File.Open(OrigAnimFile, FileMode.Open))
+            If br.ReadInt32 <> ANiMCheckByte = True Then
+                Console.WriteLine("WARNING: This file may not be a 3DO .ANIM file...")
+            End If
+        End Using
 
         'Setup DIR if not saving to orig dir.
         If SavetoOrigAnim = False Then
